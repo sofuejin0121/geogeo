@@ -1,0 +1,156 @@
+class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy # dependent: :destroy　ユーザーが削除された時そのユーザーに紐づいたマイクロポストも一緒に削除される
+  has_many :active_relationships, class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy
+
+  has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'followed_id', dependent: :destroy
+
+  # UserモデルとMicropostCommentモデル関連付け
+  has_many :comments, dependent: :destroy
+
+  # ユーザーと通知モデルの紐付け
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
+
+  # following配列の出どころ（source）はfollowed id のコレクションである」ことを明示的にRailsに伝える
+  # フォローしているユーザーを配列のように扱えるようになった
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
+
+  # 「仮想の」属性を作成
+  attr_accessor :remember_token, :activation_token, :reset_token
+
+  before_save   :downcase_email
+  before_create :create_activation_digest
+  validates :name, presence: true, length: { maximum: 50 }
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, length: { maximum: 255 },
+                    format: { with: VALID_EMAIL_REGEX },
+                    uniqueness: true
+  has_secure_password
+  # allow_nil: true パスワードが空でもok
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+
+  # 渡された文字列のハッシュ値を返す
+  def self.digest(string)
+    cost = if ActiveModel::SecurePassword.min_cost
+             BCrypt::Engine::MIN_COST
+           else
+             BCrypt::Engine.cost
+           end
+    BCrypt::Password.create(string, cost:)
+  end
+
+  # ランダムなトークンを返す
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  # 永続的セッションのためにユーザーをデータベースに記憶する
+  def remember
+    # User.new_tokenで記憶トークンを作成
+    self.remember_token = User.new_token
+    # update_attributeメソッドを使って記憶ダイジェストを更新
+    update_attribute(:remember_digest, User.digest(remember_token))
+    remember_digest
+  end
+
+  # セッションハイジャック防止のためにセッショントークを返す
+  # この記憶ダイジェストを再利用しているのは単に利便性
+  def session_token
+    remember_digest || remember
+  end
+
+  # 渡されたトークンがダイジェストと一致したらtrueを変えす
+  def authenticated?(attribute, token)
+    digest = send(:"#{attribute}_digest")
+    return false if digest.nil?
+
+    BCrypt::Password.new(digest).is_password?(token)
+  end
+
+  # ユーザーのログイン情報を破棄する
+  def forget
+    update_attribute(:remember_digest, nil)
+  end
+
+  # アカウントを有効にする
+  def activate
+    update_attribute(:activated, true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # 　有効化用のメールを送信する
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
+  # パスワード再設定の属性を設定する
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+
+  # パスワード再設定のメールを送信する
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # パスワード再設定の期限が切れている場合はtrueを返す
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
+  # ユーザーのステータスフィードを返す
+  def feed
+    following_ids = "SELECT followed_id FROM relationships
+                    WHERE follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id)
+             .includes(:user, image_attachment: :blob)
+  end
+
+  # ユーザーをフォローする
+  def follow(other_user)
+    following << other_user unless self == other_user
+  end
+
+  # ユーザーをフォロー解除する
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  # 現在のユーザーが他のユーザーをフォローしていればtrueを返す
+  def following?(other_user)
+    following.include?(other_user)
+  end
+
+  def self.ransackable_attributes(_auth_object = nil)
+    ['name']
+  end
+
+  # フォロー通知
+  def create_notification_follow!(current_user)
+    temp = Notification.where(['visitor_id = ? and visited_id = ? and action = ?', current_user.id, id, 'follow'])
+    return if temp.present?
+
+    notification = current_user.active_notifications.new(
+      visited_id: id,
+      action: 'follow'
+    )
+    notification.save if notification.valid?
+  end
+
+  private
+
+  # メールアドレスをすべて小文字にする
+  def downcase_email
+    self.email = email.downcase
+  end
+
+  # 有効化トークンとダイジェストを作成および代入する
+  def create_activation_digest
+    self.activation_token = User.new_token
+    self.activation_digest = User.digest(activation_token)
+  end
+end

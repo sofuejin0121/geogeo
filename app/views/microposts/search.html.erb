@@ -1,0 +1,5 @@
+<ol class="microposts">
+    <% @microposts.each do |micropost| %>
+        <%= render partial: 'microposts/micropost', locals: {micropost: micropost} %>
+    <% end %>
+</ol>
