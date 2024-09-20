@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MicropostsController < ApplicationController
   before_action :logged_in_user, only: %i[create destroy]
   before_action :correct_user, only: :destroy
@@ -30,7 +32,7 @@ class MicropostsController < ApplicationController
   end
 
   def search
-    puts params[:content]
+    Rails.logger.debug params[:content]
     @microposts = Micropost.where('content LIKE ?', "%#{params[:content]}%")
     render 'microposts/search'
   end

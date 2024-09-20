@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SessionsController < ApplicationController
   def new; end
 
@@ -5,7 +7,7 @@ class SessionsController < ApplicationController
     # 送信されたメールアドレスを使って、データベースからユーザーを取り出している
     user = User.find_by(email: params[:session][:email].downcase)
     # ユーザーがデータベースにあり、かつ、認証に成功した場合にのみ
-    if user && user.authenticate(params[:session][:password])
+    if user&.authenticate(params[:session][:password])
       if user.activated?
         forwarding_url = session[:forwarding_url]
         # ユーザーログイン後にユーザー情報のページにリダイレクトする

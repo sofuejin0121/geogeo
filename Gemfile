@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -6,16 +8,16 @@ ruby '3.2.5'
 gem 'active_storage_validations', '0.9.8'
 gem 'bcrypt', '3.1.18'
 gem 'bootsnap', '1.16.0', require: false
-gem 'kaminari'
-gem 'bootstrap5-kaminari-views'
 gem 'bootstrap', '~> 5.3.0'
-gem 'jquery-rails'
+gem 'bootstrap5-kaminari-views'
 gem 'bootstrap-sass', '3.4.1'
 gem 'faker', '2.21.0'
 gem 'image_processing', '1.12.2'
 gem 'importmap-rails', '1.1.5'
 gem 'jbuilder',        '2.11.5'
-gem 'puma',            '5.6.8'
+gem 'jquery-rails'
+gem 'kaminari'
+gem 'puma', '5.6.8'
 gem 'rails', '7.0.4.3'
 gem 'sassc-rails',     '2.1.2'
 gem 'sprockets-rails', '3.4.2'
@@ -28,16 +30,19 @@ group :development, :test do
 end
 
 group :development do
+  gem 'dotenv-rails'
+  gem 'erb_lint'
   gem 'htmlbeautifier'
   gem 'irb', '1.10.0'
   gem 'repl_type_completor', '0.1.2'
-  gem 'solargraph',          '0.50.0'
-  gem 'web-console',         '4.2.0'
-  gem 'erb_lint', require: false
   gem 'rubocop'
+  gem 'rubocop-ast'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
-  gem 'dotenv-rails'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
+  gem 'solargraph', '0.50.0'
+  gem 'web-console', '4.2.0'
 end
 
 group :production do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
@@ -80,13 +82,13 @@ Rails.application.configure do
   # }
 
   config.action_mailer.smtp_settings = {
-    :address => "smtp.gmail.com",
-    :port => 587,
-    :domain => 'gmail.com',
-    :user_name => ENV.fetch('GMAIL_MAIL_ADDRESS', nil), #gmailアドレス
-    :password => ENV.fetch('GMAIL_APP_PASSWORD', nil), #gmailパスワード
-    :authentication => 'plain',
-    :enable_starttls_auto => true
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'gmail.com',
+    user_name: ENV.fetch('GMAIL_MAIL_ADDRESS', nil), # gmailアドレス
+    password: ENV.fetch('GMAIL_APP_PASSWORD', nil), # gmailパスワード
+    authentication: 'plain',
+    enable_starttls_auto: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
@@ -104,7 +106,7 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   has_many :microposts, dependent: :destroy # dependent: :destroy　ユーザーが削除された時そのユーザーに紐づいたマイクロポストも一緒に削除される
   has_many :active_relationships, class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy
