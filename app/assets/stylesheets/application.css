@@ -13,3 +13,350 @@
  *= require_tree .
  *= require_self
  */
+
+/* universal */
+
+body {
+  padding-top: 60px;
+  margin-top: 20px;
+  background-color: #e9ebee;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+
+/* typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: #eaeaea;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+/* header */
+
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+}
+
+#logo:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* footer */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #eaeaea;
+}
+
+footer a {
+  color: #eaeaea;
+}
+
+footer a:hover {
+  color: #eaeaea;
+}
+
+footer small {
+  float: left;
+}
+
+@media (max-width: 800px) {
+  footer small {
+    display: block;
+    float: none;
+    margin-bottom: 1em;
+  }
+  footer ul {
+    float: right;
+    list-style: none;
+  }
+  footer ul li {
+    float: left;
+    margin-left: 15px;
+  }
+}
+
+/* miscellaneous */
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+}
+
+/* sidebar */
+
+aside section.user_info {
+  margin-top: 20px;
+}
+
+aside section {
+  padding: 10px 0;
+  margin-top: 20px;
+}
+
+aside section:first-child {
+  border: 0;
+  padding-top: 0;
+}
+
+aside section span {
+  display: block;
+  margin-bottom: 3px;
+  line-height: 1;
+}
+
+aside section h1 {
+  font-size: 1.4em;
+  text-align: left;
+  letter-spacing: -1px;
+  margin-bottom: 3px;
+  margin-top: 0px;
+}
+
+.gravatar {
+  float: left;
+  margin-right: 10px;
+}
+
+.gravatar_edit {
+  margin-top: 15px;
+}
+
+.stats {
+  overflow: auto;
+  margin-top: 0;
+  padding: 0;
+}
+
+.stats a {
+  float: left;
+  padding: 0 10px;
+  border-left: 1px solid #eaeaea;
+  color: gray;
+}
+
+.stats a:first-child {
+  padding-left: 0;
+  border: 0;
+}
+
+.stats a:hover {
+  text-decoration: none;
+  color: blue;
+}
+
+.stats strong {
+  display: block;
+}
+
+.user_avatars {
+  overflow: auto;
+  margin-top: 10px;
+}
+
+.user_avatars .gravatar {
+  margin: 1px 1px;
+}
+
+.user_avatars a {
+  padding: 0;
+}
+
+.users.follow {
+  padding: 0;
+}
+
+/* forms */
+
+input,
+textarea {
+  border: 1px solid #bbb;
+  width: 100%;
+  -moz-boz-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#error_explanation {
+  color: red;
+}
+
+#error_explanation ul {
+  color: red;
+  margin: 0 0 30px 0;
+}
+
+.field_with_errors {
+  color: #eaeaea;
+}
+
+.checkbox {
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.checkbox span {
+  margin-left: 20px;
+  font-weight: normal;
+}
+
+/* Dropdown menu */
+
+.dropdown-menu.active {
+  display: block;
+}
+
+/* Users index */
+
+.users {
+  list-style: none;
+  margin: 0;
+}
+
+.users li {
+  overflow: auto;
+  padding: 10px 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+/* microposts */
+
+.microposts {
+  list-style: none;
+  padding: 0;
+}
+
+.microposts li {
+  padding: 10px 0;
+  border-top: 1px solid #e8e8e8;
+}
+
+.microposts .user {
+  margin-top: 5em;
+  padding-top: 0;
+}
+
+.microposts .content {
+  display: block;
+  margin-left: 60px;
+}
+
+.microposts .content img {
+  display: block;
+  padding: 5px 0;
+}
+
+.microposts .timestamp {
+  color: #eaeaea;
+  display: block;
+  margin-left: 60px;
+}
+
+.microposts .gravatar {
+  float: left;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+aside textarea {
+  height: 100px;
+  margin-bottom: 5px;
+}
+
+span.image {
+  margin-top: 10px;
+}
+
+span.image input {
+  border: 0;
+}
+
+.form-group.fl_icon .icon {
+  position: absolute;
+  top: 1px;
+  left: 16px;
+  width: 48px;
+  height: 48px;
+  background: #f6f6f7;
+  color: #b5b8c2;
+  text-align: center;
+  line-height: 50px;
+  -webkit-border-top-left-radius: 2px;
+  -webkit-border-bottom-left-radius: 2px;
+  -moz-border-radius-topleft: 2px;
+  -moz-border-radius-bottomleft: 2px;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.form-group .form-input {
+  font-size: 13px;
+  line-height: 50px;
+  font-weight: 400;
+  color: #b4b7c1;
+  width: 100%;
+  height: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid #edeff2;
+  border-radius: 3px;
+}
+
+.form-group.fl_icon .form-input {
+  padding-left: 70px;
+}
+
+.form-group textarea.form-input {
+  height: 150px;
+}
