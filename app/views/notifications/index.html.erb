@@ -4,7 +4,7 @@
       <h4 class="text-center"><i class="fas fa-bell"></i>通知</h4>
       <% if @notifications.exists? %>
         <%= render @notifications %>
-        <%= will_paginate @notifications %>
+        <%= paginate @notifications, theme: 'bootstrap-5' %>
       <% else %>
         <p>通知はありません</p>
       <% end %>
