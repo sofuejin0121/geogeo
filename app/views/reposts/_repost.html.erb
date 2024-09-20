@@ -1,0 +1,17 @@
+<% if logged_in? %>
+  <% unless micropost.user.id == current_user.id %> <!--自分自身の投稿はリポストできない-->
+    <% if current_user.reposted?(micropost.id) %>
+      <%= link_to "/microposts/#{micropost.id}/reposts/#{micropost.reposts.ids}", method: :delete, title: 'リポストを取り消す',
+                                                                                  remote: true do %>
+        <%= micropost.reposts.length %>
+    <% else %>
+      <%= link_to "/microposts/#{micropost.id}/reposts", method: :micropost, title: 'リポストする',
+                                                         data: { confirm: 'この投稿をリポストしますか？' }, remote: true do %>
+        <%= micropost.reposts.length %>
+    <% end %>
+  <% else %>
+    <%= micropost.reposts.length %>
+  <% end %>
+<% else %>
+  <%= micropost.reposts.length %>
+<% end %>

@@ -1,3 +1,7 @@
 {
-  "editor.minimap.enabled": false
+  "editor.minimap.enabled": false,
+  "cSpell.words": [
+    "repost",
+    "reposts"
+  ]
 }

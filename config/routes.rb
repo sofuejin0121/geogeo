@@ -27,4 +27,6 @@ Rails.application.routes.draw do
   resources :relationships, only: %i[create destroy]
   resources :notifications, only: [:index]
   get '/microposts', to: 'static_pages#home'
+  post 'reposts/create', to: 'reposts#create', as: :reposts_create
+  delete 'reposts/destroy', to: 'reposts#destroy', as: :reposts_destroy
 end

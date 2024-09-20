@@ -1,4 +1,7 @@
 <li id="micropost-<%= micropost.id %>" class="py-4 border-t border-gray-200">
+  <% if micropost.repost_user(current_user) %>
+    <p class="text-sm text-gray-600 mb-2">あなたがリポストしました</p>
+  <% end %>
   <div class="flex items-start">
     <%= link_to gravatar_for(micropost.user, size: 50), micropost.user, class: 'flex-shrink-0 mr-3' %>
     <div class="flex-grow">
@@ -7,17 +10,32 @@
         <span class="text-gray-700">
           <%= micropost.content %>
           <% if micropost.image.attached? %>
-            <%= image_tag micropost.image.variant(:display), class: 'w-full object-contain max-w-lg mt-2' %>
+            <%= image_tag micropost.image.variant(:display), class: 'w-full object-contain max-w-lg mt-2 rounded-lg' %>
           <% end %>
         </span>
       <% end %>
-      <span class="block text-sm text-gray-500 mt-2">
-        Posted <%= time_ago_in_words(micropost.created_at) %> ago.
-        <% if current_user?(micropost.user) %>
-          <%= link_to 'delete', micropost, data: { 'turbo-method': :delete, turbo_confirm: 'You sure?' },
-                                           class: 'text-red-500 hover:underline ml-2' %>
-        <% end %>
-      </span>
+      <div class="flex items-center justify-between text-sm text-gray-500 mt-2">
+        <span>
+          Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+        </span>
+        <div class="flex items-center space-x-2">
+          <% if micropost.repost_user(current_user) %>
+            <%= button_to 'リポスト削除',
+                          reposts_destroy_path(micropost_id: micropost.id),
+                          method: :delete,
+                          class: 'px-3 py-1 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full text-xs transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50' %>
+          <% else %>
+            <%= button_to 'リポスト',
+                          reposts_create_path(micropost_id: micropost.id),
+                          method: :post,
+                          class: 'px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full text-xs transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50' %>
+          <% end %>
+          <% if current_user?(micropost.user) %>
+            <%= link_to 'delete', micropost, data: { 'turbo-method': :delete, turbo_confirm: 'You sure?' },
+                                             class: 'text-red-500 hover:underline' %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </li>

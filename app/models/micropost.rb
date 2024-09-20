@@ -7,6 +7,9 @@ class Micropost < ApplicationRecord
   # 投稿と通知モデルの紐付け
   has_many :notifications, dependent: :destroy
 
+  # Micropostモデルとrepostモデルの紐付け
+  has_many :reposts, dependent: :destroy
+
   has_one_attached :image do |attachable|
     attachable.variant :display, resize_to_limit: [500, 500]
   end
@@ -39,5 +42,10 @@ class Micropost < ApplicationRecord
     # 自分の投稿に対するコメントの場合、通知済みとする
     notification.checked = true if notification.visitor_id == notification.visited_id
     notification.save if notification.valid?
+  end
+
+  #  シェア=リツイートしたかしてないか確認する
+  def repost_user(user)
+    reposts.find_by(user:)
   end
 end

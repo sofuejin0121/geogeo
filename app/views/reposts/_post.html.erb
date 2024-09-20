@@ -1,0 +1,17 @@
+<% microposts.each_with_index.reverse_each do |micropost, i| %> 
+  <li>
+    <% if micropost.has_attribute?(:repost_user_id)%>
+      <% if micropost.repost_user.id.present?%>
+        <div>
+          <%= link_to micropost.repost_user_name, "/users/#{micropost.repost_user_id}", "data-turbolinks": false%>
+          さんがリポスト
+        <div>
+      <% end %>
+    <% end %>
+    <div>
+      <div>
+        <%= render partial: "microposts/show" locals:  {micropost: micropost}%>
+        <%= render partial: "microposts/micropost" locals:  {micropost: micropost}%>
+      </div>
+    </div>
+  </li>

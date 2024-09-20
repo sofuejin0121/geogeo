@@ -13,6 +13,9 @@ class User < ApplicationRecord
   has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
+  # ユーザーとリポストモデルの紐付け
+  has_many :reposts, dependent: :destroy
+
   # following配列の出どころ（source）はfollowed id のコレクションである」ことを明示的にRailsに伝える
   # フォローしているユーザーを配列のように扱えるようになった
   has_many :following, through: :active_relationships, source: :followed
@@ -109,7 +112,13 @@ class User < ApplicationRecord
                     WHERE follower_id = :user_id"
     Micropost.where("user_id IN (#{following_ids})
                      OR user_id = :user_id", user_id: id).includes(:user, image_attachment: :blob)
-    
+  end
+
+  # 自分が投稿、リツイートしたマイクロポストを取得する
+  def myfeed
+    repost_ids = "SELECT micropost_id FROM reposts
+      WHERE user_id = :user_id"
+    Micropost.includes(:user).where("id IN (#{repost_ids}) OR user_id = :user_id", user_id: id).order(:updated_at)
   end
 
   # ユーザーをフォローする
