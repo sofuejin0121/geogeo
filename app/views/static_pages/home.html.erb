@@ -1,47 +1,55 @@
 <% if logged_in? %>
-  <div class="row">
-    <aside class="col-md-4">
-      <section class="user_info">
+  <div class="flex flex-col md:flex-row">
+    <aside class="w-full md:w-1/3 px-4">
+      <section class="mb-8">
         <%= render 'shared/user_info' %>
       </section>
-      <section class="stats">
+      <section class="mb-8">
         <%= render 'shared/stats' %>
       </section>
-      <section class="micropost_form">
+      <section class="mb-8">
         <%= render 'shared/micropost_form' %>
       </section>
     </aside>
-    <div class="col-md-8">
-        <h3>Search</h3>
-        <%= render 'shared/search' %>
-        <h3>Micropost Feed</h3>
-        <%= form_tag root_path, method: :get, class: 'mb-3' do %>
-          <div class="row">
-            <div class="col-md-8">
-              <%= select_tag :area,
-                             options_for_select([['すべてのエリア', '']] + ['新宿区', '渋谷区', '中央区', '港区', '文京区', '台東区', '墨田区', '江東区', '品川区', '目黒区', '大田区', '世田谷区', '中野区', '杉並区', '豊島区', '北区', '荒川区', '板橋区', '練馬区', '足立区', '葛飾区', '江戸川区', '千代田区'], params[:area]), class: 'form-control' %>
-            </div>
-            <div class="col-md-4">
-              <%= submit_tag '絞り込み', class: 'btn btn-primary w-100' %>
-            </div>
+    <div class="w-full md:w-2/3 px-4">
+      <h3 class="text-2xl font-bold mb-4">Search</h3>
+      <%= render 'shared/search' %>
+      <h3 class="text-2xl font-bold mb-4">Micropost Feed</h3>
+      <%= form_tag root_path, method: :get, class: 'mb-6' do %>
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+          <div class="w-full md:w-2/3">
+            <%= select_tag :area,
+                           options_for_select(
+                             [['すべてのエリア',
+                               '']] + ['新宿区', '渋谷区', '中央区', '港区', '文京区', '台東区', '墨田区', '江東区', '品川区', '目黒区', '大田区', '世田谷区', '中野区', '杉並区', '豊島区', '北区', '荒川区', '板橋区', '練馬区', '足立区', '葛飾区', '江戸川区', '千代田区'], params[:area]
+                           ),
+                           class: 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500' %>
           </div>
-        <% end %>
-        <%= render 'shared/feed' %>
+          <div class="w-full md:w-1/3">
+            <%= submit_tag '絞り込み',
+                           class: 'w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2' %>
+          </div>
+        </div>
+      <% end %>
+      <%= render 'shared/feed' %>
     </div>
   </div>
 <% else %>
-  <div class="center jumbotron">
-    <h1>Welcome to the GEOGEO!</h1>
+  <div class="text-center py-16 bg-gray-100">
+    <h1 class="text-4xl font-bold mb-4">Welcome to the GEOGEO!</h1>
 
-    <h2>
+    <h2 class="text-xl mb-8">
       This is the home page for the
-      <a href="https://railstutorial.jp/">Ruby on Rails Tutorial</a>
+      <a href="https://railstutorial.jp/" class="text-blue-500 hover:underline">Ruby on Rails Tutorial</a>
       GEOGEO!lication.
     </h2>
 
-    <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
+    <%= link_to 'Sign up now!', signup_path,
+                class: 'inline-block px-6 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2' %>
   </div>
 
-  <%= link_to image_tag('rails.svg', alt: 'Rails logo', width: '200px'),
-              'https://rubyonrails.org/' %>
+  <div class="text-center mt-8">
+    <%= link_to image_tag('rails.svg', alt: 'Rails logo', class: 'inline-block w-48'),
+                'https://rubyonrails.org/' %>
+  </div>
 <% end %>

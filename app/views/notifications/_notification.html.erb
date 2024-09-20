@@ -1,7 +1,7 @@
 <% visitor = notification.visitor %>
 <% visited = notification.visited %>
-<div class="col-md-12 mx-auto">
-  <div class="form-inline.ms-3">
+<div class="mx-auto">
+  <div>
     <span>
       <%= link_to user_path(visitor) do %>
         <%= link_to gravatar_for(notification.visitor, size: 50), notification.visitor %>

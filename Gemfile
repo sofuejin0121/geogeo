@@ -7,11 +7,8 @@ ruby '3.2.5'
 
 gem 'active_storage_validations', '0.9.8'
 gem 'bcrypt', '3.1.18'
-gem 'bootsnap', '1.16.0', require: false
-gem 'bootstrap', '~> 5.3.0'
-gem 'bootstrap5-kaminari-views'
-gem 'bootstrap-sass', '3.4.1'
 gem 'faker', '2.21.0'
+gem 'bootsnap'
 gem 'image_processing', '1.12.2'
 gem 'importmap-rails', '1.1.5'
 gem 'jbuilder',        '2.11.5'
@@ -62,3 +59,5 @@ end
 
 # Windows ではタイムゾーン情報用の tzinfo-data gem を含める必要があります
 # gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+
+gem "tailwindcss-rails", "~> 2.7"

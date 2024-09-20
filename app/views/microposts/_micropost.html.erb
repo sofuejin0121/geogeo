@@ -1,18 +1,23 @@
-<li id="micropost-<%= micropost.id %>">
-  <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
-  <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
-  <%= link_to(micropost_path(micropost)) do %>
-    <span class="content">
-      <%= micropost.content %>
-      <% if micropost.image.attached? %>
-        <%= image_tag micropost.image.variant(:display), style: 'width: 100%; object-fit:contain; max-width: 500px;' %>
+<li id="micropost-<%= micropost.id %>" class="py-4 border-t border-gray-200">
+  <div class="flex items-start">
+    <%= link_to gravatar_for(micropost.user, size: 50), micropost.user, class: 'flex-shrink-0 mr-3' %>
+    <div class="flex-grow">
+      <span class="font-semibold"><%= link_to micropost.user.name, micropost.user, class: 'hover:underline' %></span>
+      <%= link_to(micropost_path(micropost), class: 'block mt-1') do %>
+        <span class="text-gray-700">
+          <%= micropost.content %>
+          <% if micropost.image.attached? %>
+            <%= image_tag micropost.image.variant(:display), class: 'w-full object-contain max-w-lg mt-2' %>
+          <% end %>
+        </span>
       <% end %>
-    </span>
-  <% end %>
-  <span class="timestamp">
-    Posted <%= time_ago_in_words(micropost.created_at) %> ago.
-    <% if current_user?(micropost.user) %>
-      <%= link_to 'delete', micropost, data: { 'turbo-method': :delete, turbo_confirm: 'You sure?' } %>
-    <% end %>
-  </span>
+      <span class="block text-sm text-gray-500 mt-2">
+        Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+        <% if current_user?(micropost.user) %>
+          <%= link_to 'delete', micropost, data: { 'turbo-method': :delete, turbo_confirm: 'You sure?' },
+                                           class: 'text-red-500 hover:underline ml-2' %>
+        <% end %>
+      </span>
+    </div>
+  </div>
 </li>

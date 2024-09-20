@@ -1,13 +1,13 @@
 <%= form_with(model: @micropost) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  <div class="field">
-    <%= f.text_area :content, placeholder: 'Compose new micropost...' %>
+  <div class="mb-4">
+    <%= f.text_area :content, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: 'Compose new micropost...' %>
   </div>
-  <div class="field mb-3">
-    <%= f.select :area, [['選択してください', ''], '新宿区', '渋谷区', '中央区', '港区', '文京区', '台東区', '墨田区', '江東区', '品川区', '目黒区', '大田区', '世田谷区', '中野区', '杉並区', '豊島区', '北区', '荒川区', '板橋区', '練馬区', '足立区', '葛飾区', '江戸川区', '千代田区'], {}, class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.select :area, [['選択してください', ''], '新宿区', '渋谷区', '中央区', '港区', '文京区', '台東区', '墨田区', '江東区', '品川区', '目黒区', '大田区', '世田谷区', '中野区', '杉並区', '豊島区', '北区', '荒川区', '板橋区', '練馬区', '足立区', '葛飾区', '江戸川区', '千代田区'], {}, class: "shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
   </div>
-  <%= f.submit 'Post', class: 'btn btn-primary' %>
-  <span class="image">
+  <%= f.submit 'Post', class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+  <span class="image mt-2">
     <%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png' %>
   </span>
 <% end %>

@@ -1,15 +1,13 @@
-<!--現在のユーザーを取得する, @userがnilではないプロフィールページの場合は何もせず、nilになるHomeページの場合には@userにcurrent_userを代入する-->
 <% @user ||= current_user %>
-<div class="stats">
-  <a href="<%= following_user_path(@user) %>">
-    <strong id="following" class="stat">
-      <!--フォローしているユーザーの人数を、次のように関連付けを使って計算-->
+<div class="stats flex mt-0 p-0 overflow-auto">
+  <a href="<%= following_user_path(@user) %>" class="stat float-left px-4 py-2 border-l border-gray-300 text-gray-500 hover:text-blue-500 hover:no-underline first:pl-0 first:border-l-0">
+    <strong id="following" class="block">
       <%= @user.following.count %>
     </strong>
     following
   </a>
-  <a href="<%= followers_user_path(@user) %>">
-    <strong id="followers" class="stat">
+  <a href="<%= followers_user_path(@user) %>" class="stat float-left px-4 py-2 border-l border-gray-300 text-gray-500 hover:text-blue-500 hover:no-underline">
+    <strong id="followers" class="block">
       <%= @user.followers.count %>
     </strong>
     followers
