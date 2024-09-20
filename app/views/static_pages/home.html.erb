@@ -15,12 +15,23 @@
         <h3>Search</h3>
         <%= render 'shared/search' %>
         <h3>Micropost Feed</h3>
+        <%= form_tag root_path, method: :get, class: 'mb-3' do %>
+          <div class="row">
+            <div class="col-md-8">
+              <%= select_tag :area,
+                             options_for_select([['すべてのエリア', '']] + ['新宿区', '渋谷区', '中央区', '港区', '文京区', '台東区', '墨田区', '江東区', '品川区', '目黒区', '大田区', '世田谷区', '中野区', '杉並区', '豊島区', '北区', '荒川区', '板橋区', '練馬区', '足立区', '葛飾区', '江戸川区', '千代田区'], params[:area]), class: 'form-control' %>
+            </div>
+            <div class="col-md-4">
+              <%= submit_tag '絞り込み', class: 'btn btn-primary w-100' %>
+            </div>
+          </div>
+        <% end %>
         <%= render 'shared/feed' %>
     </div>
   </div>
 <% else %>
   <div class="center jumbotron">
-    <h1>Welcome to the Sample App</h1>
+    <h1>Welcome to the GEOGEO!</h1>
 
     <h2>
       This is the home page for the

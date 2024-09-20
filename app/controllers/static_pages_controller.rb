@@ -5,7 +5,12 @@ class StaticPagesController < ApplicationController
     return unless logged_in?
 
     @micropost = current_user.microposts.build
-    @feed_items = current_user.feed.page(params[:page])
+    @feed_items = if params[:area].present?
+                     current_user.feed.where(area: params[:area]).page(params[:page])
+                  else
+                      current_user.feed.page(params[:page])
+                  end
+    
   end
 
   def help; end
