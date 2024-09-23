@@ -1,11 +1,19 @@
 <% provide(:title, 'All users') %>
-<h1>All users</h1>
 
-<%= paginate @users %>
-<ul class="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-  <% end %>
-</ul>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">All users</h1>
 
-<%= paginate @users %>
+  <div class="mb-6 flex justify-center">
+    <%= paginate @users, class: "pagination" %>
+  </div>
+
+  <ul class="divide-y divide-gray-200">
+    <% @users.each do |user| %>
+      <%= render user %>
+    <% end %>
+  </ul>
+
+  <div class="mt-8 flex justify-center">
+    <%= paginate @users, class: "pagination" %>
+  </div>
+</div>

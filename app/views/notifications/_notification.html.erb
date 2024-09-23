@@ -1,28 +1,36 @@
 <% visitor = notification.visitor %>
 <% visited = notification.visited %>
-<div class="mx-auto">
-  <div>
-    <span>
-      <%= link_to user_path(visitor) do %>
-        <%= link_to gravatar_for(notification.visitor, size: 50), notification.visitor %>
-        <strong><%= visitor.name %></strong>さんが
-      <% end %>
-    </span>
+<div class="mx-auto bg-white shadow rounded-lg p-6 mb-4">
+  <div class="flex items-start">
+    <%= link_to user_path(visitor), class: "flex items-center hover:opacity-75 transition duration-150 ease-in-out" do %>
+      <%= gravatar_for(visitor, size: 50, class: "w-12 h-12 rounded-full mr-4") %>
+      <div>
+        <strong class="text-gray-900 font-medium"><%= visitor.name %></strong>
+        <span class="text-gray-600 text-sm">さんが</span>
+      </div>
+    <% end %>
+  </div>
+  
+  <div class="mt-4">
     <% case notification.action %>
     <% when 'follow' then %>
-      <%= 'あなたをフォローしました' %>（<%= time_ago_in_words(notification.created_at).upcase %>前）
+      <p class="text-gray-800">
+        あなたをフォローしました
+        <span class="text-gray-500 text-sm ml-2">（<%= time_ago_in_words(notification.created_at).upcase %>前）</span>
+      </p>
     <% when 'comment' then %>
-      <% if notification.micropost.user_id == visited.id %>
-        <%= link_to '自分の投稿', notification.micropost %>
-      <% else %>
-        <span>
-          <%= link_to micropost_path(notification.micropost) do %>
+      <p class="text-gray-800">
+        <% if notification.micropost.user_id == visited.id %>
+          <%= link_to '自分の投稿', notification.micropost, class: "text-blue-600 hover:underline" %>
+        <% else %>
+          <%= link_to micropost_path(notification.micropost), class: "text-blue-600 hover:underline" do %>
+            <strong><%= notification.micropost.user.name %></strong>さんの投稿
           <% end %>
-          <strong><%= notification.micropost.user.name %></strong>さんの投稿
-        </span>
-      <% end %>
-      <%= 'にコメントしました' %>（<%= time_ago_in_words(notification.created_at).upcase %>前）
-      <p><%= notification.comment&.content %></p>
+        <% end %>
+        にコメントしました
+        <span class="text-gray-500 text-sm ml-2">（<%= time_ago_in_words(notification.created_at).upcase %>前）</span>
+      </p>
+      <p class="mt-2 text-gray-700"><%= notification.comment&.content %></p>
     <% end %>
   </div>
 </div>
